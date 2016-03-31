@@ -335,7 +335,7 @@ final class Mbstring
     {
         $encoding = self::getEncoding($encoding);
 
-        return iconv_strlen($s, $encoding);
+        return iconv_strlen($s, $encoding."//IGNORE");
     }
 
     public static function mb_strpos($haystack, $needle, $offset = 0, $encoding = null)
@@ -395,7 +395,7 @@ final class Mbstring
         $encoding = self::getEncoding($encoding);
 
         if ($start < 0) {
-            $start = iconv_strlen($s, $encoding) + $start;
+            $start = iconv_strlen($s, $encoding."//IGNORE") + $start;
             if ($start < 0) {
                 $start = 0;
             }
@@ -404,7 +404,7 @@ final class Mbstring
         if (null === $length) {
             $length = 2147483647;
         } elseif ($length < 0) {
-            $length = iconv_strlen($s, $encoding) + $length - $start;
+            $length = iconv_strlen($s, $encoding."//IGNORE") + $length - $start;
             if ($length < 0) {
                 return '';
             }
@@ -515,7 +515,7 @@ final class Mbstring
 
         $s = preg_replace('/[\x{1100}-\x{115F}\x{2329}\x{232A}\x{2E80}-\x{303E}\x{3040}-\x{A4CF}\x{AC00}-\x{D7A3}\x{F900}-\x{FAFF}\x{FE10}-\x{FE19}\x{FE30}-\x{FE6F}\x{FF00}-\x{FF60}\x{FFE0}-\x{FFE6}\x{20000}-\x{2FFFD}\x{30000}-\x{3FFFD}]/u', '', $s, -1, $wide);
 
-        return ($wide << 1) + iconv_strlen($s, 'UTF-8');
+        return ($wide << 1) + iconv_strlen($s, 'UTF-8//IGNORE');
     }
 
     public static function mb_substr_count($haystack, $needle, $encoding = null)
